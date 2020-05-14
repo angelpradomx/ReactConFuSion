@@ -4,7 +4,8 @@ import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import DishDetail from './DishDetailComponent';
 import Header from './HeaderComponent';
-import Footer from './FooterComponent'
+import Footer from './FooterComponent';
+import About from './AboutComponent';
 import { DISHES } from '../shared/dishes';
 import { LEADERS } from '../shared/leaders';
 import { PROMOTIONS } from '../shared/promotions';
@@ -39,6 +40,12 @@ render(){
           comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
     );
   };
+
+  const Aboute = () =>{
+    return(
+      <About leaders={this.state.leaders} />
+    )
+  }
   
   return (
     <div>
@@ -48,6 +55,7 @@ render(){
         <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
+        <Route exact path="/aboutus" component={Aboute} />
         <Redirect to="/home" />
       </Switch>
       <div className="container">
