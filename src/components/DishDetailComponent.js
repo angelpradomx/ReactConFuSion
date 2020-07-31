@@ -5,7 +5,7 @@ import {Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input, Label} fr
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Loading} from './LoadingComponent'
 import {baseUrl} from '../shared/baseUrl'
-
+import {FadeTransform, Fade, Stagger} from 'react-animation-components'
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -91,6 +91,10 @@ class CommentForm extends Component{
        
             return(
                 <div className="col-12 col-md-5 m-1">
+                <FadeTransform in 
+                    transfomProps={{
+                        exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                         <Card key={dish.id}>
                         <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
                             <CardBody>
@@ -98,6 +102,7 @@ class CommentForm extends Component{
                                 <CardText>{dish.description}</CardText>
                             </CardBody>
                         </Card>
+                </FadeTransform>
                 </div>
             )
        
@@ -109,17 +114,22 @@ class CommentForm extends Component{
                 <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     <ul className="list-unstyled">
-                        {
-                        comments.map((comment) => 
-                        <React.Fragment>
-                            <li>{comment.comment}</li>
-                            <li>--{comment.author}, {
-                            //comment.date
-                            new Intl.DateTimeFormat('en-US', {year:'numeric', month:'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))
-                            }</li>
-                        </React.Fragment>
-                        )
-                        }
+                        <Stagger in>
+                            {
+                            comments.map((comment) => 
+                            <React.Fragment>
+                                <Fade in>
+                                    <li key = {comment.id}></li>
+                                    <li>{comment.comment}</li>
+                                    <li>--{comment.author}, {
+                                    //comment.date
+                                    new Intl.DateTimeFormat('en-US', {year:'numeric', month:'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))
+                                    }</li>
+                                </Fade>
+                            </React.Fragment>
+                            )
+                            }
+                        </Stagger>
                     </ul>
                     <CommentForm dishId={dishId} postComment={postComment} />
                 </div>
